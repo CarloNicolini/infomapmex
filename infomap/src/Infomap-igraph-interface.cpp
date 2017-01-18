@@ -18,14 +18,13 @@ void igraphToInfomapNetwork(Network& network, const igraph_t* graph,
 
         network.addLink(static_cast<unsigned int>(from), static_cast<unsigned int>(to), linkWeight);
 
-        //        double nodeWeight = 1.0;
-        //		if (v_weights) {
-        //			for (unsigned int i = 0; i < numNodes; ++i) {
-        //				nodeWeight = (double)VECTOR(*v_weights)[i];
-        //			}
-        //		}
+        double nodeWeight = 1.0;
+        if (v_weights) {
+            for (unsigned int i = 0; i < numNodes; ++i) {
+                nodeWeight = (double)VECTOR(*v_weights)[i];
+            }
+        }
     }
-
     network.finalizeAndCheckNetwork(true, numNodes);
 }
 }

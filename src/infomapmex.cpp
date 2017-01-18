@@ -91,9 +91,10 @@ static const char *error_strings[] =
 
 struct InfomapParams
 {
-    size_t nrep;      // Maximum number of consecutive repetitions to perform.
-    int rand_seed; // random seed for the louvain algorithm
-    int verbosity_level;
+    //size_t nrep;      // Maximum number of consecutive repetitions to perform.
+    //int rand_seed; // random seed for the louvain algorithm
+    //int verbosity_level;
+    std::string options;
 };
 
 error_type parse_args(int nOutputArgs, mxArray *outputArgs[], int nInputArgs, const mxArray * inputArgs[], InfomapParams *pars, int *argposerr )
@@ -156,14 +157,67 @@ error_type parse_args(int nOutputArgs, mxArray *outputArgs[], int nInputArgs, co
             cpartype = mxArrayToString(partype);
             //mexPrintf("ARGUMENT: %s VALUE=%g\n", cpartype,*mxGetPr(parval));
             // Parse string value inputArgs[c]
-            if ( strcasecmp(cpartype,"Method")==0 )
+            if ( strcasecmp(cpartype,"N")==0 ) //The number of outer-most loops to run before picking the best solution.
             {
-                //if (pars->method<0 || pars->method>3)
+                if (*mxGetPr(parval) <0 )
                 {
                     *argposerr = argcount+1;
                     return ERROR_ARG_VALUE;
                 }
+                else
+                {
+                    pars->options += " -N" + std::to_string(*mxGetPr(parval)) + std::string(" ");
+                }
                 argcount+=2;
+            }
+//            else if ( strcasecmp(cpartype,"undirdir")==0 ) // Two-mode dynamics: Assume undirected links for calculating flow, but directed when minimizing codelength.
+//            {
+//                pars->options += "--undirdir ";
+//                argcount += 2;
+//            }
+//            else if ( strcasecmp(cpartype,"outdirdir")==0 ) // Two-mode dynamics: Count only ingoing links when calculating the flow, but all when minimizing codelength.
+//            {
+//                pars->options += "--outdirdir ";
+//                argcount += 2;
+//            }
+            else if ( strcasecmp(cpartype,"p")==0 ) // The probability of teleporting to a random node or link. (Default: 0.15)
+            {
+                if (*mxGetPr(parval) <0 || *mxGetPr(parval) > 1)
+                {
+                    *argposerr = argcount+1;
+                    return ERROR_ARG_VALUE;
+                }
+                else
+                {
+                    pars->options += " -p" + std::to_string(*mxGetPr(parval)) + std::string(" ");
+                }
+                argcount += 2;
+            }
+            else if ( strcasecmp(cpartype,"y")==0 ) // Additional probability of teleporting to itself. Effectively increasing the code rate, generating more and smaller modules. (Default: -1)
+            {
+                if (*mxGetPr(parval) <0 || *mxGetPr(parval) > 1)
+                {
+                    *argposerr = argcount+1;
+                    return ERROR_ARG_VALUE;
+                }
+                else
+                {
+                    pars->options += " -y" + std::to_string(*mxGetPr(parval)) + std::string(" ");
+                }
+                argcount += 2;
+            }
+            else if ( strcasecmp(cpartype,"markov-time")==0 ) // Scale link flow with this value to change the cost of moving between modules. Higher for less modules. (Default: 1)
+            {
+                if (*mxGetPr(parval) <0 )
+                {
+                    *argposerr = argcount+1;
+                    return ERROR_ARG_VALUE;
+                }
+                else
+                {
+                    pars->options += " --markov-time " + std::to_string(*mxGetPr(parval)) + std::string(" ");
+                }
+                argcount += 2;
             }
             else
             {
@@ -181,19 +235,17 @@ error_type parse_args(int nOutputArgs, mxArray *outputArgs[], int nInputArgs, co
     return NO_ERROR;
 }
 
-void printClusters(infomap::HierarchicalNetwork& tree)
-{
-    std::cout << "\nClusters:\n#originalIndex clusterIndex:\n";
+//void printClusters(infomap::HierarchicalNetwork& tree)
+//{
+//    std::cout << "\nClusters:\n#originalIndex clusterIndex:\n";
 
-    for (infomap::LeafIterator leafIt(&tree.getRootNode()); !leafIt.isEnd(); ++leafIt)
-        std::cout << leafIt->originalLeafIndex << " " << leafIt->parentNode->parentIndex << '\n';
-}
+//    for (infomap::LeafIterator leafIt(&tree.getRootNode()); !leafIt.isEnd(); ++leafIt)
+//        std::cout << leafIt->originalLeafIndex << " " << leafIt->parentNode->parentIndex << '\n';
+//}
 
 void mexFunction(int nOutputArgs, mxArray *outputArgs[], int nInputArgs, const mxArray * inputArgs[])
 {
     InfomapParams pars;
-
-    FILELog::ReportingLevel() = static_cast<TLogLevel>(pars.verbosity_level);
 
     // Check the arguments of the function
     int error_arg_pos=-1;
@@ -290,20 +342,25 @@ void mexFunction(int nOutputArgs, mxArray *outputArgs[], int nInputArgs, const m
         }
 
         // adapt it to an infomap matrix
-        infomap::Config config = infomap::init(std::string("--two-level"));
+        pars.options += std::string("--two-level");
+        infomap::Config config = infomap::init(pars.options);
         infomap::Network network(config);
-        infomap::igraphToInfomapNetwork(network, G->get_igraph());
+        infomap::igraphToInfomapNetwork(network, G->get_igraph(),G->get_edge_weights());
         infomap::HierarchicalNetwork resultNetwork(config);
         infomap::run(network, resultNetwork);
-        printClusters(resultNetwork);
+        // Prepare output
+        outputArgs[0] = mxCreateDoubleMatrix(1,(mwSize)G->number_of_nodes(), mxREAL);
+        std::vector<double> membership(G->number_of_nodes());
+        for (infomap::LeafIterator leafIt(&resultNetwork.getRootNode()); !leafIt.isEnd(); ++leafIt)
+        {
+            membership.at(leafIt->originalLeafIndex) = double(leafIt->parentNode->parentIndex);
+        }
+        // Copy the membership of nodes to outputArgs[0]
+        memcpy(mxGetPr(outputArgs[0]), membership.data(), sizeof(double)*G->number_of_nodes());
 
-        // // Prepare output
-        // outputArgs[0] = mxCreateDoubleMatrix(1,(mwSize)G->number_of_nodes(), mxREAL);
-        // // Copy the membership vector to outputArgs[0] which has been already preallocated
-        // igraph_vector_copy_to(c.get_membership(),mxGetPr(outputArgs[0]));
-        // // Copy the value of partition quality
-        // outputArgs[1] = mxCreateDoubleScalar(finalquality);
-        // // Cleanup the memory (follow this order)
+        // // Copy the value of codelength
+        outputArgs[1] = mxCreateDoubleScalar(resultNetwork.codelength());
+        // Cleanup the memory (follow this order)
         delete G;
     }
     catch (std::exception &e)
