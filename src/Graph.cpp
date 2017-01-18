@@ -685,9 +685,9 @@ void GraphC::print() const
     igraph_adjlist_t adjlist;
     igraph_neimode_t mode = IGRAPH_TOTAL;
     igraph_adjlist_init(&this->ig,&adjlist,mode);
-    FILE_LOG(logINFO) << "Graph adjacencly list" ;
+    //FILE_LOG(logINFO) << "Graph adjacencly list" ;
     igraph_adjlist_print(&adjlist);
-    FILE_LOG(logINFO) << "End adjacencly list" ;
+    //FILE_LOG(logINFO) << "End adjacencly list" ;
     igraph_adjlist_destroy(&adjlist);
 }
 
@@ -697,12 +697,12 @@ void GraphC::print() const
 void GraphC::info()
 {
     printf(ANSI_COLOR_YELLOW);
-    FILE_LOG(logINFO) << "Num vertices=" << number_of_nodes() << " Num edges=" << number_of_edges();
-    FILE_LOG(logINFO) << "Is directed? " << is_directed();
-    FILE_LOG(logINFO) << "Is weighted? " << is_weighted();
-    FILE_LOG(logINFO) << "Density (no loops)=" << density(false);
-    FILE_LOG(logINFO) << "Density (with loops)=" << density(true);
-    FILE_LOG(logINFO) << "Num connected components=" << number_connected_components();
-    FILE_LOG(logINFO) << "Clustering coefficient=" << clustering_coefficient();
+    //FILE_LOG(logINFO) << "Num vertices=" << number_of_nodes() << " Num edges=" << number_of_edges();
+    //FILE_LOG(logINFO) << "Is directed? " << is_directed();
+    //FILE_LOG(logINFO) << "Is weighted? " << is_weighted();
+    //FILE_LOG(logINFO) << "Density (no loops)=" << density(false);
+    //FILE_LOG(logINFO) << "Density (with loops)=" << density(true);
+    //FILE_LOG(logINFO) << "Num connected components=" << number_connected_components();
+    //FILE_LOG(logINFO) << "Clustering coefficient=" << clustering_coefficient();
     printf(ANSI_COLOR_RESET);
 }

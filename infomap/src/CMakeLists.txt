@@ -76,4 +76,5 @@ set(INFOMAP_HDRS
     )
 
 add_library(infomap SHARED ${INFOMAP_SRCS} ${INFOMAP_HDRS})
+target_link_libraries(infomap ${IGRAPH_LIBRARIES})
 #add_executable(infomap ${INFOMAP_SRC_DIR}/Infomap.cpp )
