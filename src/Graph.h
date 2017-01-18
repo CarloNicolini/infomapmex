@@ -50,7 +50,6 @@
 #include <igraph.h>
 #include "Common.h"
 #include "igraph_utils.h"
-#include "FileLogger.h"
 
 
 class GraphC

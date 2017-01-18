@@ -36,7 +36,6 @@
 
 #include <sstream>
 #include "Graph.h"
-#include "FileLogger.h"
 /**
  * @brief GraphC::GraphC
  */
