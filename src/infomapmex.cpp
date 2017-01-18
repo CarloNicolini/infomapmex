@@ -170,16 +170,16 @@ error_type parse_args(int nOutputArgs, mxArray *outputArgs[], int nInputArgs, co
                 }
                 argcount+=2;
             }
-//            else if ( strcasecmp(cpartype,"undirdir")==0 ) // Two-mode dynamics: Assume undirected links for calculating flow, but directed when minimizing codelength.
-//            {
-//                pars->options += "--undirdir ";
-//                argcount += 2;
-//            }
-//            else if ( strcasecmp(cpartype,"outdirdir")==0 ) // Two-mode dynamics: Count only ingoing links when calculating the flow, but all when minimizing codelength.
-//            {
-//                pars->options += "--outdirdir ";
-//                argcount += 2;
-//            }
+            //            else if ( strcasecmp(cpartype,"undirdir")==0 ) // Two-mode dynamics: Assume undirected links for calculating flow, but directed when minimizing codelength.
+            //            {
+            //                pars->options += "--undirdir ";
+            //                argcount += 2;
+            //            }
+            //            else if ( strcasecmp(cpartype,"outdirdir")==0 ) // Two-mode dynamics: Count only ingoing links when calculating the flow, but all when minimizing codelength.
+            //            {
+            //                pars->options += "--outdirdir ";
+            //                argcount += 2;
+            //            }
             else if ( strcasecmp(cpartype,"p")==0 ) // The probability of teleporting to a random node or link. (Default: 0.15)
             {
                 if (*mxGetPr(parval) <0 || *mxGetPr(parval) > 1)
