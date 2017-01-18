@@ -1,4 +1,4 @@
-#include <infomap/Network.h>
+#include "infomap/Network.h"
 #include <igraph_interface.h>
 
 //namespace infomap

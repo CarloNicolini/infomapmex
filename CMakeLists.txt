@@ -35,7 +35,7 @@ endif(OCTAVE_SUPPORT)
 find_package(IGraph)
 include_directories(${IGRAPH_INCLUDES})
 
-# Add the subdirectory with the source code
-add_subdirectory(src)
-# Add the Infomap module that must be kept up to date
+# Add the subdirectory with the source code of infomap
 add_subdirectory(infomap)
+# Add the subdirectory with the matlab mex wrapper
+add_subdirectory(src)
