@@ -41,8 +41,8 @@
 #include <sys/time.h>
 
 #include <Eigen/Core>
-#include "infomap/src/Infomap.h"
-#include "infomap/src/Infomap-igraph-interface.h"
+#include "../infomap/src/Infomap.h"
+#include "../infomap/src/Infomap-igraph-interface.h"
 #include "FileLogger.h"
 #include "Graph.h"
 

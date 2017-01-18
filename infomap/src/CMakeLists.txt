@@ -10,7 +10,7 @@ include_directories(${INFOMAP_SRC_DIR}/io)
 
 set(INFOMAP_SRCS
 	${INFOMAP_SRC_DIR}/Infomap-igraph-interface.cpp
-	${INFOMAP_SRC_DIR}/Infomap.cpp
+	#${INFOMAP_SRC_DIR}/Infomap.cpp
 	${INFOMAP_SRC_DIR}/infomap/FlowNetwork.cpp
 	${INFOMAP_SRC_DIR}/infomap/InfomapBase.cpp
 	${INFOMAP_SRC_DIR}/infomap/InfomapContext.cpp
@@ -22,7 +22,7 @@ set(INFOMAP_SRCS
 	${INFOMAP_SRC_DIR}/infomap/NetworkAdapter.cpp
 	${INFOMAP_SRC_DIR}/infomap/Node.cpp
 	${INFOMAP_SRC_DIR}/infomap/TreeData.cpp
-	${INFOMAP_SRC_DIR}/Informatter.cpp
+	#${INFOMAP_SRC_DIR}/Informatter.cpp
 	${INFOMAP_SRC_DIR}/io/BipartiteClusterReader.cpp
 	${INFOMAP_SRC_DIR}/io/ClusterReader.cpp
 	${INFOMAP_SRC_DIR}/io/HierarchicalNetwork.cpp
@@ -76,3 +76,4 @@ set(INFOMAP_HDRS
     )
 
 add_library(infomap SHARED ${INFOMAP_SRCS} ${INFOMAP_HDRS})
+#add_executable(infomap ${INFOMAP_SRC_DIR}/Infomap.cpp )
