@@ -13,6 +13,14 @@ set(INFOMAP_SRCS
 	NetworkAdapter.cpp
 	Node.cpp
 	TreeData.cpp
+	${INFOMAP_SRC_DIR}/src/utils/Logger.cpp
+	${INFOMAP_SRC_DIR}/src/utils/FileURI.cpp
+	${INFOMAP_SRC_DIR}/src/io/BipartiteClusterReader.cpp
+    ${INFOMAP_SRC_DIR}/src/io/ClusterReader.cpp
+	${INFOMAP_SRC_DIR}/src/io/HierarchicalNetwork.cpp
+	${INFOMAP_SRC_DIR}/src/io/ProgramInterface.cpp
+	${INFOMAP_SRC_DIR}/src/io/TreeDataWriter.cpp
+	${INFOMAP_SRC_DIR}/src/io/version.cpp
 	)
 
 set(INFOMAP_HDRS

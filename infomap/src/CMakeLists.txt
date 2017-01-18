@@ -5,4 +5,3 @@ include_directories(infomap)
 #include_directories(utils)
 #include_directories(io)
 add_subdirectory(infomap)
-

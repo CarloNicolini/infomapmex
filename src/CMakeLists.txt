@@ -3,5 +3,5 @@ project(infomapmex)
 
 include_directories(eigen)
 include_directories(${CMAKE_SOURCE_DIR}/infomap/src/)
-add_mex(infomapmex infomapmex.cpp)
-target_link_libraries(infomapmex infomap ${MATLAB_LIBRARIES})
+add_mex(infomapmx infomapmex.cpp)
+target_link_libraries(infomapmx infomap ${MATLAB_LIBRARIES} ${IGRAPH_LIBRARIES})
