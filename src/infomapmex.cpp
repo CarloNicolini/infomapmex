@@ -291,11 +291,11 @@ void mexFunction(int nOutputArgs, mxArray *outputArgs[], int nInputArgs, const m
 
         // adapt it to an infomap matrix
         infomap::Config config = infomap::init(std::string("--two-level"));
-        //infomap::Network network(config);
-        //        igraphToInfomapNetwork(network, G->get_igraph());
-        //        HierarchicalNetwork resultNetwork(config);
-        //        run(network, resultNetwork);
-        //        printClusters(resultNetwork);
+        infomap::Network network(config);
+        infomap::igraphToInfomapNetwork(network, G->get_igraph());
+        infomap::HierarchicalNetwork resultNetwork(config);
+        infomap::run(network, resultNetwork);
+        printClusters(resultNetwork);
 
         // // Prepare output
         // outputArgs[0] = mxCreateDoubleMatrix(1,(mwSize)G->number_of_nodes(), mxREAL);
