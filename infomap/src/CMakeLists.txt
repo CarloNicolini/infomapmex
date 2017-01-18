@@ -10,7 +10,7 @@ include_directories(${INFOMAP_SRC_DIR}/io)
 
 set(INFOMAP_SRCS
 	${INFOMAP_SRC_DIR}/Infomap-igraph-interface.cpp
-	#${INFOMAP_SRC_DIR}/Infomap.cpp
+        ${INFOMAP_SRC_DIR}/Infomap.cpp
 	${INFOMAP_SRC_DIR}/infomap/FlowNetwork.cpp
 	${INFOMAP_SRC_DIR}/infomap/InfomapBase.cpp
 	${INFOMAP_SRC_DIR}/infomap/InfomapContext.cpp
@@ -35,7 +35,7 @@ set(INFOMAP_SRCS
 
 set(INFOMAP_HDRS
 	${INFOMAP_SRC_DIR}/Infomap-igraph-interface.h
-	${INFOMAP_SRC_DIR}/Infomap.h
+        ${INFOMAP_SRC_DIR}/Infomap.h
 	${INFOMAP_SRC_DIR}/infomap/Edge.h
 	${INFOMAP_SRC_DIR}/infomap/flowData.h
 	${INFOMAP_SRC_DIR}/infomap/flowData_traits.h

@@ -8,13 +8,16 @@ set(EXECUTABLE_OUTPUT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/build/" CACHE PATH "Sing
 # Check for the support of C++11 compliant compilers
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
-set(CMAKE_CXX_FLAGS "-Wall -Wno-deprecated-declarations -std=c++11 -fPIC -fopenmp ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-Wall -Wno-deprecated-declarations -std=c++11 -fopenmp ${CMAKE_CXX_FLAGS}")
 
 # Specify if matlab support and python wrappers are to be compiled. Default OFF
 # MATLAB support needs MEX (Tested on Ubuntu 14.04, Matlab R2013a)
 option(MATLAB_SUPPORT "Mex with MATLAB" OFF)
 option(OCTAVE_SUPPORT "Oct with Octave mkoctfile" OFF)
 option(COMPILE_TESTS "Compile all debugging tests" OFF)
+
+add_definitions("-DNS_INFOMAP")
+add_definitions("-DAS_LIB")
 
 if(MATLAB_SUPPORT)
     find_package(MyMatlab)

@@ -181,11 +181,11 @@ error_type parse_args(int nOutputArgs, mxArray *outputArgs[], int nInputArgs, co
     return NO_ERROR;
 }
 
-void printClusters(HierarchicalNetwork& tree)
+void printClusters(infomap::HierarchicalNetwork& tree)
 {
     std::cout << "\nClusters:\n#originalIndex clusterIndex:\n";
 
-    for (LeafIterator leafIt(&tree.getRootNode()); !leafIt.isEnd(); ++leafIt)
+    for (infomap::LeafIterator leafIt(&tree.getRootNode()); !leafIt.isEnd(); ++leafIt)
         std::cout << leafIt->originalLeafIndex << " " << leafIt->parentNode->parentIndex << '\n';
 }
 
@@ -290,12 +290,12 @@ void mexFunction(int nOutputArgs, mxArray *outputArgs[], int nInputArgs, const m
         }
 
         // adapt it to an infomap matrix
-        Config config = init("--two-level");
-        Network network(config);
-        igraphToInfomapNetwork(network, G->get_igraph());
-        HierarchicalNetwork resultNetwork(config);
-        run(network, resultNetwork);
-        printClusters(resultNetwork);
+        infomap::Config config = infomap::init(std::string("--two-level"));
+        //infomap::Network network(config);
+        //        igraphToInfomapNetwork(network, G->get_igraph());
+        //        HierarchicalNetwork resultNetwork(config);
+        //        run(network, resultNetwork);
+        //        printClusters(resultNetwork);
 
         // // Prepare output
         // outputArgs[0] = mxCreateDoubleMatrix(1,(mwSize)G->number_of_nodes(), mxREAL);

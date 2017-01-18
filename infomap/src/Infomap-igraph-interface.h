@@ -1,8 +1,8 @@
 #include "infomap/Network.h"
 #include <igraph_interface.h>
 
-//namespace infomap
-//{
+namespace infomap
+{
 	/**
 	* Copy an igraph network to an Infomap network
 	*
@@ -20,4 +20,4 @@
 	* @param membership Pointer to a vector. The membership vector is stored here.
 	*/
 	// void getClusterMembership(igraph_vector_t *membership);
-//}
+}
