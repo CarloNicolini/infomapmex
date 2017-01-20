@@ -20,17 +20,19 @@ endif()
 
 set(CMAKE_CXX_FLAGS "-Wall -Wno-deprecated-register -Wno-deprecated-declarations -std=c++11 ${CMAKE_CXX_FLAGS}")
 
-find_package(OpenMP)
-if (OPENMP_FOUND)
-    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-endif()
-
 # Specify if matlab support and python wrappers are to be compiled. Default OFF
 # MATLAB support needs MEX (Tested on Ubuntu 14.04, Matlab R2013a)
 option(MATLAB_SUPPORT "Mex with MATLAB" OFF)
 option(OCTAVE_SUPPORT "Oct with Octave mkoctfile" OFF)
 option(COMPILE_TESTS "Compile all debugging tests" OFF)
+
+if (OPENMP_SUPPORT)
+    find_package(OpenMP)
+    if (OPENMP_FOUND)
+        set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    endif()
+endif (OPENMP_FOUND)
 
 # To enable infomap namespace and avoid confusion
 add_definitions("-DNS_INFOMAP")
